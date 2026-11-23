@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BILIMDON – AQLNI CHARXLASH | Mantiqiy O'yinlar Platformasi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="age-6-10">
+
+    <!-- Konfetti va animatsiyalar uchun qatlam -->
+    <canvas id="confetti-canvas"></canvas>
+    <div id="floating-coins-container"></div>
+    <div id="toast-container"></div>
+
+    <!-- 1. KIRISH OYNASI (LOGIN / ONBOARDING SCREEN) -->
+    <section id="login-screen" class="screen active">
+        <div class="bg-shapes">
+            <div class="shape shape-1">🧠</div>
+            <div class="shape shape-2">🚀</div>
+            <div class="shape shape-3">⭐</div>
+            <div class="shape shape-4">🎯</div>
+            <div class="shape shape-5">💡</div>
+            <div class="shape shape-6">🏆</div>
+        </div>
+
+        <div class="login-card glass-panel">
+            <div class="logo-badge">
+                <span class="logo-icon">🧠</span>
+                <div class="logo-pulse"></div>
+            </div>
+            <h1 class="main-title">BILIMDON</h1>
+            <p class="subtitle">AQLNI CHARXLASH PLATFORMASI</p>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username-input">Ismingiz yoki taxallusingiz:</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="username-input" placeholder="Masalan: Alisher_PRO" maxlength="18" required autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Yoshingiz toifasini tanlang:</label>
+                    <div class="age-grid">
+                        <div class="age-card" data-age="3-5">
+                            <div class="age-emoji">🧸</div>
+                            <div class="age-title">3–5 yosh</div>
+                            <div class="age-desc">Kichkintoylar</div>
+                        </div>
+                        <div class="age-card selected" data-age="6-10">
+                            <div class="age-emoji">🚀</div>
+                            <div class="age-title">6–10 yosh</div>
+                            <div class="age-desc">Sarguzashtchilar</div>
+                        </div>
+                        <div class="age-card" data-age="11-15">
+                            <div class="age-emoji">⚡</div>
+                            <div class="age-title">11–15 yosh</div>
+                            <div class="age-desc">Kiber-Bilimdon</div>
+                        </div>
+                        <div class="age-card" data-age="16-20">
+                            <div class="age-emoji">👑</div>
+                            <div class="age-title">16–20 yosh</div>
+                            <div class="age-desc">Oliy Intellekt</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-3d btn-primary start-btn">
+                    <span>O‘YINNI BOSHLASH</span>
+                    <span class="btn-icon">🎮</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 2. ASOSIY PLATFORMA OYNASI -->
+    <div id="app-container" class="hidden">
+        <!-- YUQORI PANEL (TOP HEADER) -->
+        <header class="top-header glass-panel">
+            <div class="header-left">
+                <div class="brand-mini" onclick="navigateTo('home')">
+                    <span class="brand-emoji">🧠</span>
+                    <span class="brand-name">BILIMDON</span>
+                </div>
+                <span id="header-age-badge" class="age-pill">6–10 yosh</span>
+            </div>
+
+            <div class="header-right">
+                <div class="stat-pill streak-pill" title="Ketma-ket g'alabalar">
+                    <span>🔥</span>
+                    <span id="header-streak">0</span>
+                </div>
+                <div class="stat-pill level-pill" title="Umumiy daraja">
+                    <span>⭐</span>
+                    <span>Lvl <b id="header-level">1</b></span>
+                </div>
+                <div class="stat-pill coin-pill" onclick="navigateTo('coins')" title="Tangalar balansi">
+                    <span class="coin-spin">🪙</span>
+                    <span id="header-coins">0</span>
+                </div>
+                <button id="quick-sound-btn" class="icon-btn" title="Ovozni yoqish/o'chirish">🔊</button>
+                <div class="user-mini-profile" onclick="navigateTo('profile')">
+                    <div class="avatar-circle" id="header-avatar">😎</div>
+                    <span id="header-username">O'yinchi</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ASOSIY ISHCHI MAYDON -->
+        <div class="main-layout">
+            <!-- CHAP MENYU (NAVIGATION SIDEBAR) -->
+            <nav class="sidebar glass-panel">
+                <ul class="nav-list">
+                    <li class="nav-item active" data-page="home">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Bosh sahifa</span>
+                    </li>
+                    <li class="nav-item" data-page="games">
+                        <span class="nav-icon">🎮</span>
+                        <span class="nav-text">O‘yinlar</span>
+                    </li>
+                    <li class="nav-item" data-page="profile">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profil</span>
+                    </li>
+                    <li class="nav-item" data-page="coins">
+                        <span class="nav-icon">🪙</span>
+                        <span class="nav-text">Tangalar</span>
+                    </li>
+                    <li class="nav-item" data-page="rating">
+                        <span class="nav-icon">🏆</span>
+                        <span class="nav-text">Reyting</span>
+                    </li>
+                    <li class="nav-item" data-page="gifts">
+                        <span class="nav-icon">🎁</span>
+                        <span class="nav-text">Sovg‘alar</span>
+                        <span id="gift-badge" class="notif-dot">!</span>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-text">Sozlamalar</span>
+                    </li>
+                </ul>
+
+                <button id="logout-btn" class="btn-3d btn-danger logout-btn">
+                    <span>🚪</span>
+                    <span>Chiqish</span>
+                </button>
+            </nav>
+
+            <!-- KONTENT MAYDONI (DYNAMIC PAGES) -->
+            <main class="content-area">
+                
+                <!-- SAHIFA 1: BOSH SAHIFA (HOME DASHBOARD) -->
+                <section id="page-home" class="page active">
+                    <div class="welcome-banner glass-panel">
+                        <div class="welcome-text">
+                            <h2>Salom, <span id="welcome-name">Bilimdon</span>! 👋</h2>
+                            <p id="motivational-quote">"Har bir yechilgan jumboq — miyangiz uchun yangi kuchdir!"</p>
+                            <div class="banner-actions">
+                                <button class="btn-3d btn-primary" onclick="navigateTo('games')">
+                                    O‘ynashni boshlash 🚀
+                                </button>
+                                <button class="btn-3d btn-secondary" onclick="navigateTo('gifts')">
+                                    Kunlik sovg‘a 🎁
+                                </button>
+                            </div>
+                        </div>
+                        <div class="welcome-mascot" id="age-mascot">🦊</div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <!-- Kunlik vazifalar -->
+                        <div class="card glass-panel">
+                            <div class="card-header">
+                                <h3>📋 Kunlik vazifalar</h3>
+                                <span class="badge">Mukofotlar</span>
+                            </div>
+                            <div id="daily-quests-list" class="quests-container">
+                                <!-- JS orqali to'ldiriladi -->
+                            </div>
+                        </div>
+
+                        <!-- Tezkor statistika -->
+                        <div class="card glass-panel">
+                            <div class="card-header">
+                                <h3>📊 Sizning natijalaringiz</h3>
+                            </div>
+                            <div class="mini-stats-grid">
+                                <div class="mini-stat-box">
+                                    <span class="ms-icon">🎯</span>
+                                    <span class="ms-val" id="home-stat-solved">0</span>
+                                    <span class="ms-lbl">To‘g‘ri javob</span>
+                                </div>
+                                <div class="mini-stat-box">
+                                    <span class="ms-icon">🔥</span>
+                                    <span class="ms-val" id="home-stat-max-streak">0</span>
+                                    <span class="ms-lbl">Maks. seriya</span>
+                                </div>
+                                <div class="mini-stat-box">
+                                    <span class="ms-icon">🏅</span>
+                                    <span class="ms-val" id="home-stat-achievements">0/8</span>
+                                    <span class="ms-lbl">Yutuqlar</span>
+                                </div>
+                                <div class="mini-stat-box">
+                                    <span class="ms-icon">📈</span>
+                                    <span class="ms-val" id="home-stat-rank">#10</span>
+                                    <span class="ms-lbl">Reyting o‘rni</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tavsiya etilgan o'yinlar -->
+                    <div class="section-header">
+                        <h3>🔥 Sizning yoshingiz uchun maxsus o‘yinlar</h3>
+                        <button class="text-btn" onclick="navigateTo('games')">Barchasini ko‘rish →</button>
+                    </div>
+                    <div id="featured-games-grid" class="games-grid">
+                        <!-- JS orqali to'ldiriladi -->
+                    </div>
+                </section>
+
+                <!-- SAHIFA 2: O'YINLAR KATALOGI VA O'YIN MAYDONI -->
+                <section id="page-games" class="page">
+                    <!-- O'yinlar ro'yxati -->
+                    <div id="games-catalog-view">
+                        <div class="section-header">
+                            <div>
+                                <h2>🎮 Mantiqiy o‘yinlar to‘plami</h2>
+                                <p class="section-sub" id="catalog-age-desc">Yoshingizga moslashtirilgan intellektual mashqlar</p>
+                            </div>
+                        </div>
+                        <div id="all-games-grid" class="games-grid">
+                            <!-- JS orqali to'ldiriladi -->
+                        </div>
+                    </div>
+
+                    <!-- Faol o'yin oynasi (Active Game Arena) -->
+                    <div id="active-game-view" class="hidden">
+                        <div class="game-top-bar glass-panel">
+                            <button id="exit-game-btn" class="btn-3d btn-secondary btn-sm">← Orqaga</button>
+                            
+                            <div class="game-info-center">
+                                <h3 id="current-game-title">O‘yin nomi</h3>
+                                <span id="current-game-level" class="level-badge">Level 1</span>
+                            </div>
+
+                            <div class="game-hud">
+                                <div class="hud-item hearts-box" id="game-hearts">❤️❤️❤️</div>
+                                <div class="hud-item timer-box">⏱️ <span id="game-timer">30</span>s</div>
+                                <div class="hud-item progress-box">Savol: <span id="game-q-num">1</span>/5</div>
+                            </div>
+                        </div>
+
+                        <!-- Progress chizig'i -->
+                        <div class="game-progress-track">
+                            <div id="game-progress-fill" class="game-progress-fill" style="width: 20%;"></div>
+                        </div>
+
+                        <!-- O'yin kontenti shu yerga yuklanadi -->
+                        <div id="game-stage" class="game-stage glass-panel">
+                            <!-- Dinamik savollar, kartalar, rasmlar -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SAHIFA 3: PROFIL -->
+                <section id="page-profile" class="page">
+                    <div class="profile-header glass-panel">
+                        <div class="profile-avatar-selector">
+                            <div class="big-avatar" id="profile-big-avatar">😎</div>
+                            <div class="avatar-choices" id="avatar-choices">
+                                <button class="av-btn" data-av="😎">😎</button>
+                                <button class="av-btn" data-av="🦊">🦊</button>
+                                <button class="av-btn" data-av="🦁">🦁</button>
+                                <button class="av-btn" data-av="🤖">🤖</button>
+                                <button class="av-btn" data-av="🦄">🦄</button>
+                                <button class="av-btn" data-av=" astronaut">👨‍🚀</button>
+                                <button class="av-btn" data-av="🧙‍♂️">🧙‍♂️</button>
+                                <button class="av-btn" data-av="🐼">🐼</button>
+                            </div>
+                        </div>
+                        <div class="profile-details">
+                            <h2 id="profile-username">Foydalanuvchi</h2>
+                            <p id="profile-age-label" class="age-pill">6–10 yosh</p>
+                            <div class="xp-bar-container">
+                                <div class="xp-labels">
+                                    <span>Daraja: <b id="profile-level">1</b></span>
+                                    <span>Keyingi darajagacha: <b id="profile-xp-text">0 / 100</b> XP</span>
+                                </div>
+                                <div class="xp-track">
+                                    <div id="profile-xp-fill" class="xp-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <!-- Batafsil statistika -->
+                        <div class="card glass-panel">
+                            <h3>📈 Umumiy statistika</h3>
+                            <ul class="stats-list">
+                                <li><span>O‘ynalgan o‘yinlar soni:</span> <b id="stat-games-played">0</b></li>
+                                <li><span>To‘g‘ri javoblar:</span> <b id="stat-correct-answers">0</b></li>
+                                <li><span>Noto‘g‘ri javoblar:</span> <b id="stat-wrong-answers">0</b></li>
+                                <li><span>Aniqlik darajasi:</span> <b id="stat-accuracy">0%</b></li>
+                                <li><span>Eng uzun g‘alabalar seriyasi:</span> <b id="stat-best-streak">0</b></li>
+                                <li><span>Jami yig‘ilgan tangalar:</span> <b id="stat-total-coins">0 🪙</b></li>
+                            </ul>
+                        </div>
+
+                        <!-- Yutuqlar (Achievements) -->
+                        <div class="card glass-panel">
+                            <h3>🏅 Maxsus yutuqlar (Achievements)</h3>
+                            <div id="achievements-grid" class="achievements-grid">
+                                <!-- JS orqali to'ldiriladi -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eng yaxshi natijalar tarixi -->
+                    <div class="card glass-panel mt-20">
+                        <h3>📜 So‘nggi o‘yinlar tarixi</h3>
+                        <div class="table-responsive">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>O‘yin nomi</th>
+                                        <th>Daraja</th>
+                                        <th>Natija</th>
+                                        <th>Yutilgan tanga</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body">
+                                    <!-- JS orqali to'ldiriladi -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SAHIFA 4: TANGALAR VA DO'KON -->
+                <section id="page-coins" class="page">
+                    <div class="coins-hero glass-panel">
+                        <div class="coin-big-icon">🪙</div>
+                        <h2>Sizning xazinangiz: <span id="coins-page-balance">0</span> tanga</h2>
+                        <p>O‘yinlarda g‘alaba qozoning, ketma-ket to‘g‘ri javob bering va ko‘proq tanga to‘plang!</p>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card glass-panel">
+                            <h3>💡 Tanga ishlash qoidalari</h3>
+                            <ul class="rules-list">
+                                <li><span class="rule-badge easy">+10 🪙</span> Oddiy savolga to‘g‘ri javob</li>
+                                <li><span class="rule-badge med">+20 🪙</span> O‘rtacha savolga to‘g‘ri javob</li>
+                                <li><span class="rule-badge hard">+30 🪙</span> Qiyin savolga to‘g‘ri javob</li>
+                                <li><span class="rule-badge bonus">+50 🪙</span> Darajani xatosiz (mukammal) tugatish</li>
+                                <li><span class="rule-badge streak">+15 🪙</span> Har 3 ta ketma-ket to‘g‘ri javob bonusi</li>
+                            </ul>
+                        </div>
+
+                        <div class="card glass-panel">
+                            <h3>🛒 Tanga evaziga bonuslar</h3>
+                            <div class="shop-items">
+                                <div class="shop-item">
+                                    <div class="shop-icon">❤️</div>
+                                    <div class="shop-info">
+                                        <h4>Qo‘shimcha jon (+1 ❤️)</h4>
+                                        <p>Keyingi o‘yinda 4 ta yurak bilan boshlaysiz</p>
+                                    </div>
+                                    <button class="btn-3d btn-primary btn-sm" onclick="buyBonus('extraHeart', 100)">100 🪙</button>
+                                </div>
+                                <div class="shop-item">
+                                    <div class="shop-icon">⏳</div>
+                                    <div class="shop-info">
+                                        <h4>Vaqt sekinlatgich (+15s)</h4>
+                                        <p>Har bir savolga +15 soniya qo‘shimcha vaqt</p>
+                                    </div>
+                                    <button class="btn-3d btn-primary btn-sm" onclick="buyBonus('extraTime', 150)">150 🪙</button>
+                                </div>
+                                <div class="shop-item">
+                                    <div class="shop-icon">👑</div>
+                                    <div class="shop-info">
+                                        <h4>Qirollik Toji Avatari</h4>
+                                        <p>Profil uchun maxsus oltin toj belgisi</p>
+                                    </div>
+                                    <button class="btn-3d btn-primary btn-sm" onclick="buyBonus('crownAvatar', 300)">300 🪙</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SAHIFA 5: REYTING (LEADERBOARD TOP-10) -->
+                <section id="page-rating" class="page">
+                    <div class="section-header">
+                        <div>
+                            <h2>🏆 TOP-10 Eng Kuchli Bilimdonlar</h2>
+                            <p class="section-sub">Tangalar va ochilgan darajalar bo‘yicha umumiy reyting</p>
+                        </div>
+                    </div>
+
+                    <div class="card glass-panel">
+                        <div class="table-responsive">
+                            <table class="custom-table leaderboard-table">
+                                <thead>
+                                    <tr>
+                                        <th>O‘rin</th>
+                                        <th>O‘yinchi</th>
+                                        <th>Yosh toifasi</th>
+                                        <th>Daraja</th>
+                                        <th>Tangalar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leaderboard-body">
+                                    <!-- JS orqali to'ldiriladi -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SAHIFA 6: SOVG'ALAR (DAILY REWARDS) -->
+                <section id="page-gifts" class="page">
+                    <div class="section-header">
+                        <div>
+                            <h2>🎁 Har kungi sovg‘alar va bonuslar</h2>
+                            <p class="section-sub">Har kuni saytga kiring va sovg‘a sandig‘ini oching!</p>
+                        </div>
+                    </div>
+
+                    <div class="daily-chest-card glass-panel">
+                        <div id="chest-visual" class="chest-emoji">🎁</div>
+                        <h3 id="chest-title">Bugungi sovg‘angiz tayyor!</h3>
+                        <p id="chest-desc">Sandiqni bosing va tasodifiy tangalar yutib oling (50 dan 250 tangagacha!)</p>
+                        <button id="claim-daily-btn" class="btn-3d btn-primary">SOVG‘ANI OLISH ✨</button>
+                    </div>
+
+                    <h3 class="mt-20 mb-15">📅 7 Kunlik kirish taqvimi</h3>
+                    <div id="daily-calendar-grid" class="calendar-grid">
+                        <!-- JS orqali to'ldiriladi -->
+                    </div>
+                </section>
+
+                <!-- SAHIFA 7: SOZLAMALAR (SETTINGS) -->
+                <section id="page-settings" class="page">
+                    <div class="section-header">
+                        <h2>⚙️ Platforma sozlamalari</h2>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card glass-panel">
+                            <h3>🔊 Ovoz va Musiqa sozlamalari</h3>
+                            <div class="setting-row">
+                                <div>
+                                    <h4>Fon musiqasi</h4>
+                                    <p>O‘yin davomida yoqimli musiqa</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-music" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-row">
+                                <div>
+                                    <h4>Ovoz effektlari (SFX)</h4>
+                                    <p>Tugmalar, tangalar va g‘alaba ovozlari</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-sfx" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-row vertical">
+                                <div class="flex-between">
+                                    <h4>Ovoz balandligi</h4>
+                                    <span id="volume-val">70%</span>
+                                </div>
+                                <input type="range" id="volume-slider" min="0" max="100" value="70" class="range-slider">
+                            </div>
+                        </div>
+
+                        <div class="card glass-panel">
+                            <h3>👤 Profil va Yosh toifasini o‘zgartirish</h3>
+                            <div class="input-group">
+                                <label>Yangi ism (Username):</label>
+                                <input type="text" id="settings-username" class="std-input" maxlength="18">
+                            </div>
+                            <div class="input-group">
+                                <label>Yosh toifasini almashtirish (Dizayn ham o‘zgaradi):</label>
+                                <select id="settings-age-select" class="std-input">
+                                    <option value="3-5">3–5 yosh (Kichkintoylar)</option>
+                                    <option value="6-10">6–10 yosh (Sarguzashtchilar)</option>
+                                    <option value="11-15">11–15 yosh (Kiber-Bilimdon)</option>
+                                    <option value="16-20">16–20 yosh (Oliy Intellekt)</option>
+                                </select>
+                            </div>
+                            <button id="save-settings-btn" class="btn-3d btn-primary">O‘zgarishlarni saqlash 💾</button>
+
+                            <hr class="divider">
+                            <button id="reset-progress-btn" class="btn-3d btn-danger btn-sm">⚠️ Barcha natijalarni nollash</button>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL OYNASI: DARAJA YAKUNI / NATIJALAR -->
+    <div id="result-modal" class="modal-overlay hidden">
+        <div class="modal-card glass-panel">
+            <div id="modal-emoji" class="modal-emoji">🏆</div>
+            <h2 id="modal-title">Ajoyib g‘alaba!</h2>
+            <p id="modal-subtitle">Siz darajani muvaffaqiyatli yakunladingiz!</p>
+            
+            <div class="modal-stars" id="modal-stars">⭐⭐⭐</div>
+
+            <div class="modal-stats">
+                <div class="m-stat">
+                    <span>To‘g‘ri javoblar:</span>
+                    <b id="modal-score">5 / 5</b>
+                </div>
+                <div class="m-stat">
+                    <span>Yig‘ilgan tangalar:</span>
+                    <b id="modal-coins" class="gold-text">+100 🪙</b>
+                </div>
+                <div class="m-stat">
+                    <span>Bonus tanga:</span>
+                    <b id="modal-bonus" class="green-text">+50 🪙</b>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button id="modal-menu-btn" class="btn-3d btn-secondary">O‘yinlar menyusi</button>
+                <button id="modal-next-btn" class="btn-3d btn-primary">Keyingi daraja ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
